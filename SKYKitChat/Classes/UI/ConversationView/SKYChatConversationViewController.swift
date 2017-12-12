@@ -577,7 +577,7 @@ extension SKYChatConversationViewController {
     }
 
     // Subclasses can override this method to render a custom typing indicator
-    open func hideTypingIndicator() {
+    @objc open func hideTypingIndicator() {
         guard self.showTypingIndicator == true else {
             // no need to update
             return
@@ -611,7 +611,7 @@ extension SKYChatConversationViewController {
         }
     }
     
-    func longPressAction(gesture: UILongPressGestureRecognizer) {
+    @objc func longPressAction(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             self.didStartRecord(button: self.recordButton!)
         }
@@ -660,7 +660,7 @@ extension SKYChatConversationViewController {
         return alert
     }
 
-    open func didPressCameraButton(_ sender: UIButton!) {
+    @objc open func didPressCameraButton(_ sender: UIButton!) {
         // There is always a cropping overlay
         // So just disable it
         let croppingParams = CroppingParameters(isEnabled: false, allowResizing: true, allowMoving: true, minimumSize: CGSize.init(width: 64, height: 64))
@@ -785,7 +785,7 @@ extension SKYChatConversationViewController {
         self.sendMessage(msg)
     }
     
-    open func didPressSendButton(button: UIButton) {
+    @objc open func didPressSendButton(button: UIButton) {
         self.inputToolbar?.delegate.messagesInputToolbar(self.inputToolbar, didPressRightBarButton: button)
     }
 
