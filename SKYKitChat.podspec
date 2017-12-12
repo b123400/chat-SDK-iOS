@@ -12,7 +12,7 @@ This is the client library for the Skygear Chat extension.
   s.author           = { "Oursky Ltd." => "hello@oursky.com" }
   s.source           = { :git => 'https://github.com/SkygearIO/chat-SDK-iOS.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.2'
+  s.ios.deployment_target = '9.0'
   s.default_subspecs = 'Core'
 
   s.subspec 'Core' do |sp|
@@ -32,10 +32,10 @@ This is the client library for the Skygear Chat extension.
     sp.dependency 'SKYKit/Core',               '~> 1.1'
     sp.dependency 'JSQMessagesViewController', '~> 7.3.0'
     sp.dependency 'SVProgressHUD',             '~> 2.1.0'
-    sp.dependency 'ALCameraViewController',    '~> 2.0'
+    sp.dependency 'ALCameraViewController',    '~> 3.0'
     sp.dependency 'LruCache',                  '~> 0.1'
     sp.dependency 'CTAssetsPickerController',  '~> 3.3.1'
-    sp.dependency 'SKPhotoBrowser',            '~> 4.1.1'
+    sp.dependency 'SKPhotoBrowser',            '~> 5.0'
   end
 
 end
