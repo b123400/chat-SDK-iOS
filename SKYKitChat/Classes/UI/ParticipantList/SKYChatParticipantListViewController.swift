@@ -49,7 +49,7 @@ public enum SKYChatParticipantQueryMethod: UInt {
                                            atIndexPath indexPath: IndexPath) -> UIImage?
 }
 
-open class SKYChatParticipantListViewController: UIViewController {
+open class SKYChatParticipantListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     static let queryMethodCoderKey = "QUERY_METHOD"
 
@@ -74,11 +74,7 @@ open class SKYChatParticipantListViewController: UIViewController {
 
     var participants: [SKYRecord] = []
 
-}
-
 // MARK: - Initializing
-
-extension SKYChatParticipantListViewController {
 
     public class var nib: UINib {
         return UINib(nibName: "SKYChatParticipantListViewController",
@@ -93,11 +89,8 @@ extension SKYChatParticipantListViewController {
     open override var prefersStatusBarHidden: Bool {
         return true
     }
-}
 
 // MARK: - Lifecycle
-
-extension SKYChatParticipantListViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,11 +137,7 @@ extension SKYChatParticipantListViewController {
         }
     }
 
-}
-
 // MARK: - UITableViewDelegate, UITableViewDataSource
-
-extension SKYChatParticipantListViewController: UITableViewDelegate, UITableViewDataSource {
 
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.participants.count
@@ -203,11 +192,8 @@ extension SKYChatParticipantListViewController: UITableViewDelegate, UITableView
         return CGFloat(62)
     }
 
-}
 
 // MARK: - UISearchBarDelegate
-
-extension SKYChatParticipantListViewController: UISearchBarDelegate {
 
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text {
@@ -227,11 +213,8 @@ extension SKYChatParticipantListViewController: UISearchBarDelegate {
         self.searchTerm = nil
 
     }
-}
 
 // MARK: - Utility Methods
-
-extension SKYChatParticipantListViewController {
 
     open func customizeSubviews() {
         self.searchBar.keyboardType = .default

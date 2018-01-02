@@ -97,7 +97,7 @@ import SKPhotoBrowser
         failedFetchingMessagesWithError error: Error)
 }
 
-open class SKYChatConversationViewController: JSQMessagesViewController, AVAudioRecorderDelegate, SKYChatConversationImageItemDelegate {
+open class SKYChatConversationViewController: JSQMessagesViewController, AVAudioRecorderDelegate, SKYChatConversationImageItemDelegate, CTAssetsPickerControllerDelegate {
 
     weak public var delegate: SKYChatConversationViewControllerDelegate?
 
@@ -163,21 +163,15 @@ open class SKYChatConversationViewController: JSQMessagesViewController, AVAudio
     var audioDict: [String: SKYChatConversationAudioItem] = [:]
     var audioTime: TimeInterval?
     var indicator: UIActivityIndicatorView?
-}
 
 // MARK: - Initializing
-
-extension SKYChatConversationViewController {
 
     public class func create() -> SKYChatConversationViewController {
         return SKYChatConversationViewController(nibName: "JSQMessagesViewController",
                                                  bundle: Bundle(for: JSQMessagesViewController.self))
     }
-}
 
 // MARK: - Lifecycle
-
-extension SKYChatConversationViewController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -237,11 +231,9 @@ extension SKYChatConversationViewController {
             self.dismiss(animated: animated, completion: nil)
         }
     }
-}
 
 // MARK: - Rendering
 
-extension SKYChatConversationViewController {
     func createSlideToCancelTextView(_ frame: CGRect) -> UITextView {
         let textView = UITextView(frame: frame)
         textView.isEditable = false
@@ -279,12 +271,12 @@ extension SKYChatConversationViewController {
             ])
     }
 
-    func shouldShowCameraButton() -> Bool {
+    open func shouldShowCameraButton() -> Bool {
         return
             self.delegate?.cameraButtonShouldShowInConversationViewController?(self) ?? true
     }
 
-    func createActivityIndicator() {
+    open func createActivityIndicator() {
         self.indicator = UIActivityIndicatorView()
         self.indicator?.activityIndicatorViewStyle = .gray
         self.indicator?.hidesWhenStopped = true
@@ -611,7 +603,7 @@ extension SKYChatConversationViewController {
         }
     }
     
-    @objc func longPressAction(gesture: UILongPressGestureRecognizer) {
+    @objc open func longPressAction(gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
             self.didStartRecord(button: self.recordButton!)
         }
@@ -644,7 +636,7 @@ extension SKYChatConversationViewController {
         self.present(browser, animated: true, completion: nil)
     }
 
-    func defaultAccessoryButtonAlertController() -> UIAlertController {
+    open func defaultAccessoryButtonAlertController() -> UIAlertController {
         let alert = UIAlertController(title: "Actions",
                                       message: nil,
                                       preferredStyle: .actionSheet)
@@ -673,12 +665,9 @@ extension SKYChatConversationViewController {
 
         self.present(imagePicker, animated: true, completion: nil)
     }
-}
-
 
 // MARK: - Send Message
 
-extension SKYChatConversationViewController {
     open func failedToSendMessage(_ messageText: String,
                                   date: Date,
                                   errorCode: SKYErrorCode,
@@ -691,7 +680,7 @@ extension SKYChatConversationViewController {
                                                    error: err)
     }
     
-    func sendMessage(_ msg: SKYMessage) {
+    open func sendMessage(_ msg: SKYMessage) {
         guard let conv = self.conversation else {
             self.failedToSendMessage(msg.body ?? "",
                                      date: msg.creationDate(),
@@ -743,11 +732,9 @@ extension SKYChatConversationViewController {
         self.finishSendingMessage(animated: true)
         self.skygear.chatExtension?.sendTypingIndicator(.finished, in: self.conversation!)
     }
-}
 
 // MARK: - Actions
 
-extension SKYChatConversationViewController {
     open override func textViewDidChange(_ textView: UITextView) {
         super.textViewDidChange(textView)
         if textView.text.characters.count > 0 {
@@ -812,11 +799,9 @@ extension SKYChatConversationViewController {
             self.fetchMessages(before: firstMessage.creationDate())
         }
     }
-}
 
 // MARK: - Default accessory action handler
 
-extension SKYChatConversationViewController {
     public func defaultPhotoPickerActionHandler() -> (UIAlertAction) -> Swift.Void {
         return { _ in
             let picker = CTAssetsPickerController()
@@ -826,11 +811,9 @@ extension SKYChatConversationViewController {
             self.present(picker, animated: true, completion: nil)
         }
     }
-}
 
 // MARK: - CTAssetsPickerControllerDelegate
 
-extension SKYChatConversationViewController: CTAssetsPickerControllerDelegate {
     public func assetsPickerController(_ picker: CTAssetsPickerController!, didFinishPickingAssets assets: [Any]!) {
         for asset in assets {
             switch asset {
@@ -842,12 +825,9 @@ extension SKYChatConversationViewController: CTAssetsPickerControllerDelegate {
         }
         picker.dismiss(animated: true, completion: nil)
     }
-}
-
 
 // MARK: - Send photos
 
-extension SKYChatConversationViewController {
     func cleanup(asset: SKYAsset) {
         try? FileManager.default.removeItem(at: asset.url)
     }
@@ -925,11 +905,9 @@ extension SKYChatConversationViewController {
         self.collectionView?.reloadData()
         self.scrollToBottom(animated: true)
     }
-}
 
 // MARK: - Audio
 
-extension SKYChatConversationViewController {
     func startRecord() {
         print("Start Recording")
         let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("recording.m4a")
@@ -1031,9 +1009,6 @@ extension SKYChatConversationViewController {
             }
         }
     }
-}
-
-extension SKYChatConversationViewController {
 
     open func subscribeMessageChanges() {
 
@@ -1129,11 +1104,8 @@ extension SKYChatConversationViewController {
             self.typingIndicatorChangeObserver = nil
         }
     }
-}
 
 // MARK: - Utility Methods
-
-extension SKYChatConversationViewController {
 
     open func fetchParticipants() {
         guard self.conversation != nil else {
@@ -1259,11 +1231,9 @@ extension SKYChatConversationViewController {
 
         return self.participants[message.creatorUserRecordID()]
     }
-}
 
 // MARK: Resource
 
-extension SKYChatConversationViewController {
     open func bundle() -> Bundle? {
         let podBundle = Bundle(for: SKYChatConversationViewController.self)
         let bundleUrl = podBundle.url(forResource: "SKYKitChatUI", withExtension:"bundle")

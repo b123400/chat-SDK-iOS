@@ -37,7 +37,7 @@ import SVProgressHUD
                                            didSelectConversation conversation: SKYConversation)
 }
 
-open class SKYChatConversationListViewController: UIViewController {
+open class SKYChatConversationListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     public var skygear: SKYContainer = SKYContainer.default()
     public weak var delegate: SKYChatConversationListViewControllerDelegate?
@@ -49,11 +49,8 @@ open class SKYChatConversationListViewController: UIViewController {
     var conversations: [SKYConversation] = []
     var users: [String: SKYRecord] = [:]
     var conversationChangeObserver: Any?
-}
 
 // MARK: - Initializing
-
-extension SKYChatConversationListViewController {
 
     public class var nib: UINib {
         return  UINib(nibName: "SKYChatConversationListViewController",
@@ -64,11 +61,8 @@ extension SKYChatConversationListViewController {
         return SKYChatConversationListViewController(nibName: "SKYChatConversationListViewController",
                                                      bundle: Bundle(for: SKYChatConversationListViewController.self))
     }
-}
 
 // MARK: - Lifecycle
-
-extension SKYChatConversationListViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,11 +118,8 @@ extension SKYChatConversationListViewController {
             refreshControl.endRefreshing()
         })
     }
-}
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
-
-extension SKYChatConversationListViewController: UITableViewDelegate, UITableViewDataSource {
 
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
@@ -192,11 +183,8 @@ extension SKYChatConversationListViewController: UITableViewDelegate, UITableVie
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-}
 
 // MARK: - Utility Methods
-
-extension SKYChatConversationListViewController {
 
     public func getUsers() -> [String: SKYRecord] {
         return self.users
